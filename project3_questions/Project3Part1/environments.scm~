@@ -25,8 +25,7 @@
       ; ###### variable so that it could be manipulated and
       ; ###### increased later on.
       ; #####################################################    
-      (extend-env
-        'count (num-val 0)
+
 
 
     
