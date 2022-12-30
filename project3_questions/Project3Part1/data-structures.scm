@@ -68,7 +68,8 @@
 
     (nested-procedure
       (bvar symbol?)
-      (bvar number?)
+      (count number?)
+      (name symbol?)
       (body expression?)
       (env environment?))
     

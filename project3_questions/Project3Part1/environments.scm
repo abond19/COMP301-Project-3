@@ -64,7 +64,10 @@
               ; ###### returned. Otherwise, it should behave
               ; ###### as it normally does.
               ; #####################################################
-              val
+              ;(if (nested-procedure? var)
+                (proc-val (nested-procedure bvar count name body env))
+                val)
+
 
               ; #####################################################
                         
