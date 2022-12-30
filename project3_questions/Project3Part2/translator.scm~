@@ -1,7 +1,6 @@
 (module translator (lib "eopl.ss" "eopl")
   
   (require "lang.scm")
-  (require trace)
 
   (provide translation-of-program)
   ;;;;;;;;;;;;;;;; lexical address calculator ;;;;;;;;;;;;;;;;
@@ -42,36 +41,21 @@
          ; ################################################
          ; ############ implement translation of var-exp here
          ; ################################################  
-                 (let ((count (apply-senv-number senv var)))
-                   (if (= count 1)
-                       (var-exp (string->symbol (string-append (symbol->string var) "1")))
-                       (begin
-                         (display
-                          (string-append
-                           (string-append
-                            (string-append "x has been reinitialized. " (string-append 'x (number->string count))) "is created and shadows ") (string-append 'x (number->string (- count 1))))
-                         (var-exp (string->symbol (string-append 'x count)))
-                        )
-                    )
-                   )
-                   )
+                 
          )
         
         (let-exp (var exp1 body)
           ; ################################################
           ; ############ implement translation of let-exp here
           ; ################################################
-                 (let ((val1 (translation-of exp1 senv)))
-                   (let-exp (translation-of var (extend-senv var senv)) val1 (translation-of body
-                             (extend-senv var senv))))
+                 
          )
         
         (proc-exp (var body)
          ; ################################################
          ; ############ implement translation of proc-exp here
          ; ################################################  
-                  (translation-of body
-                                  (extend-senv var senv))
+                  
          )
         
         (call-exp (rator rand)
@@ -109,14 +93,8 @@
   ; ###### the environment and finds the occurences of variable
   ; ###### var in the environment senv
   ; ###########################################################
-    (lambda (senv var)
-      (if (null? senv)
-          0
-          (if (eqv? var (car senv))
-              (+ 1 (apply-senv-number (cdr senv) var))
-              (apply-senv-number (cdr senv) var)
-          ))
-   ))
+  
+   )
   
   ;; apply-senv : Senv * Var -> Lexaddr
   ;; Page: 95
@@ -141,7 +119,5 @@
         (extend-senv 'v
           (extend-senv 'a
             (empty-senv))))))
-
-  (trace translation-of)
   
   )

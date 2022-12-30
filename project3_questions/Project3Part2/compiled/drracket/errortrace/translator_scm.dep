@@ -1,1 +1,1 @@
-("8.4" tarm64osx ("25011343c2519e15250a6a9382c8e092e407cf1f" . "c4a110f640d09694bef863272e730efed34acd40") #"/Users/umur/Desktop/Project3Part3/lang.scm" (collects #"eopl" #"eopl.rkt") (collects #"errortrace" #"errortrace-key.rkt"))
+("8.6" ta6osx ("888e56185fa78b4ddbe733d577bc08e7519aa631" . "d4308b785284c21138b43e1fc968f1ccd4ba3df6") #"/Users/andrewbond/Documents/COMP301_Project3/comp301_project3/project3_questions/Project3Part2/lang.scm" (collects #"eopl" #"eopl.rkt") (collects #"errortrace" #"errortrace-key.rkt") (collects #"trace" #"main.rkt"))

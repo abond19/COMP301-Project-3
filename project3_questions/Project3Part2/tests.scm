@@ -9,166 +9,166 @@
   ;;;;;;;;;;;;;;;; tests ;;;;;;;;;;;;;;;;
   
   ;; simple arithmetic;;
-  (display "positive-const  -->  ")
-  (display(translation-of-program
-           (scan&parse "11")))
-  (newline)
-  (newline)
-  ;Prints:
-  ;#(struct:a-program #(struct:const-exp 11))
-  
-  (display "negative-const  -->  ")
-  (display (translation-of-program
-            (scan&parse "-33")))
-  (newline)
-  (newline)
-  ;Prints:
-  ;#(struct:a-program #(struct:const-exp -33))
-
-  ;; nested arithmetic;;
-  (display "nested-arith-left  -->  ")
-  (display (translation-of-program
-            (scan&parse "-(-(44,33),22)")))
-  (newline)
-  (newline)
-  ;Prints:
-;  #(struct:a-program
-;    #(struct:diff-exp #(struct:diff-exp #(struct:const-exp 44) #(struct:const-exp 33)) #(struct:const-exp 22)))
- 
-  (display "nested-arith-right  -->  ")
-  (display (translation-of-program
-            (scan&parse "-(55, -(22,11))")))
-  (newline)
-  (newline)
-  ;Prints:
-  ;   #(struct:a-program
-;     #(struct:diff-exp #(struct:const-exp 55) #(struct:diff-exp #(struct:const-exp 22) #(struct:const-exp 11))))
-   
-  
-  ;; simple conditionals;;
-    
-  (display "if-true  -->  ")
-  (display (translation-of-program
-            (scan&parse "if zero?(0) then 3 else 4")))
-  (newline)
-  (newline)
-  ;Prints:
-  ;#(struct:a-program #(struct:if-exp #(struct:zero?-exp #(struct:const-exp 0)) #(struct:const-exp 3) #(struct:const-exp 4)))
-
-  (display "if-false  -->  ")
-  (display (translation-of-program
-            (scan&parse "if zero?(1) then 3 else 4")))
-  (newline)
-  (newline)
-  ;Prints:
-  ; #(struct:a-program #(struct:if-exp #(struct:zero?-exp #(struct:const-exp 1)) #(struct:const-exp 3) #(struct:const-exp 4)))
-  
-  ;; test dynamic typechecking;;
-  (display "no-bool-to-diff-1  -->  ")
-  (display (translation-of-program
-            (scan&parse "-(zero?(0),1)")))
-  (newline)
-  (newline)
-  ;Prints:
-  ; #(struct:a-program #(struct:diff-exp #(struct:zero?-exp #(struct:const-exp 0)) #(struct:const-exp 1)))
-  
-  (display "if-eval-test-true  -->  ")
-  (display (translation-of-program
-            (scan&parse "if zero?(-(11,11)) then 3 else 4")))
-  (newline)
-  (newline)
-  ;Prints:
-  ;#(struct:a-program #(struct:if-exp #(struct:zero?-exp #(struct:diff-exp #(struct:const-exp 11) #(struct:const-exp 11))) #(struct:const-exp 3) #(struct:const-exp 4)))
-  
-  (display "if-eval-test-false  -->  ")
-  (display (translation-of-program
-            (scan&parse "if zero?(-(11, 12)) then 3 else 4")))
-  (newline)
-  (newline)
-  ;Prints:
-  ;#(struct:a-program #(struct:if-exp #(struct:zero?-exp #(struct:diff-exp #(struct:const-exp 11) #(struct:const-exp 12))) #(struct:const-exp 3) #(struct:const-exp 4)))
-      
+;  (display "positive-const  -->  ")
+;  (display(translation-of-program
+;           (scan&parse "11")))
+;  (newline)
+;  (newline)
+;  ;Prints:
+;  ;#(struct:a-program #(struct:const-exp 11))
+;  
+;  (display "negative-const  -->  ")
+;  (display (translation-of-program
+;            (scan&parse "-33")))
+;  (newline)
+;  (newline)
+;  ;Prints:
+;  ;#(struct:a-program #(struct:const-exp -33))
+;
+;  ;; nested arithmetic;;
+;  (display "nested-arith-left  -->  ")
+;  (display (translation-of-program
+;            (scan&parse "-(-(44,33),22)")))
+;  (newline)
+;  (newline)
+;  ;Prints:
+;;  #(struct:a-program
+;;    #(struct:diff-exp #(struct:diff-exp #(struct:const-exp 44) #(struct:const-exp 33)) #(struct:const-exp 22)))
+; 
+;  (display "nested-arith-right  -->  ")
+;  (display (translation-of-program
+;            (scan&parse "-(55, -(22,11))")))
+;  (newline)
+;  (newline)
+;  ;Prints:
+;  ;   #(struct:a-program
+;;     #(struct:diff-exp #(struct:const-exp 55) #(struct:diff-exp #(struct:const-exp 22) #(struct:const-exp 11))))
+;   
+;  
+;  ;; simple conditionals;;
+;    
+;  (display "if-true  -->  ")
+;  (display (translation-of-program
+;            (scan&parse "if zero?(0) then 3 else 4")))
+;  (newline)
+;  (newline)
+;  ;Prints:
+;  ;#(struct:a-program #(struct:if-exp #(struct:zero?-exp #(struct:const-exp 0)) #(struct:const-exp 3) #(struct:const-exp 4)))
+;
+;  (display "if-false  -->  ")
+;  (display (translation-of-program
+;            (scan&parse "if zero?(1) then 3 else 4")))
+;  (newline)
+;  (newline)
+;  ;Prints:
+;  ; #(struct:a-program #(struct:if-exp #(struct:zero?-exp #(struct:const-exp 1)) #(struct:const-exp 3) #(struct:const-exp 4)))
+;  
+;  ;; test dynamic typechecking;;
+;  (display "no-bool-to-diff-1  -->  ")
+;  (display (translation-of-program
+;            (scan&parse "-(zero?(0),1)")))
+;  (newline)
+;  (newline)
+;  ;Prints:
+;  ; #(struct:a-program #(struct:diff-exp #(struct:zero?-exp #(struct:const-exp 0)) #(struct:const-exp 1)))
+;  
+;  (display "if-eval-test-true  -->  ")
+;  (display (translation-of-program
+;            (scan&parse "if zero?(-(11,11)) then 3 else 4")))
+;  (newline)
+;  (newline)
+;  ;Prints:
+;  ;#(struct:a-program #(struct:if-exp #(struct:zero?-exp #(struct:diff-exp #(struct:const-exp 11) #(struct:const-exp 11))) #(struct:const-exp 3) #(struct:const-exp 4)))
+;  
+;  (display "if-eval-test-false  -->  ")
+;  (display (translation-of-program
+;            (scan&parse "if zero?(-(11, 12)) then 3 else 4")))
+;  (newline)
+;  (newline)
+;  ;Prints:
+;  ;#(struct:a-program #(struct:if-exp #(struct:zero?-exp #(struct:diff-exp #(struct:const-exp 11) #(struct:const-exp 12))) #(struct:const-exp 3) #(struct:const-exp 4)))
+;      
   ;; simple let;;
-  (display "simple-let-1  -->  ")
-  (display (translation-of-program
-            (scan&parse "let x = 3 in x")))
-  (newline)
-  (newline)
+  ;(display "simple-let-1  -->  ")
+  ;(display (translation-of-program
+  ;          (scan&parse "let x = 3 in x")))
+  ;(newline)
+  ;(newline)
   ;Prints:
   ;#(struct:a-program #(struct:let-exp x1 #(struct:const-exp 3) #(struct:var-exp x1)))
   
-  (display "eval-let-body  -->  ")
-  (display (translation-of-program
-            (scan&parse "let x = 3 in -(x,1)")))
-  (newline)
-  (newline)
+  ;(display "eval-let-body  -->  ")
+  ;(display (translation-of-program
+  ;          (scan&parse "let x = 3 in -(x,1)")))
+  ;(newline)
+  ;(newline)
   ;Prints:
   ;#(struct:a-program #(struct:let-exp x1 #(struct:const-exp 3) #(struct:diff-exp #(struct:var-exp x1) #(struct:const-exp 1))))
   
-  (display "eval-let-rhs  -->  ")
-  (display (translation-of-program
-            (scan&parse "let x = -(4,1) in -(x,1)")))
-  (newline)
-  (newline)
-  ;Prints:
-  ;#(struct:a-program #(struct:let-exp x1 #(struct:diff-exp #(struct:const-exp 4) #(struct:const-exp 1)) #(struct:diff-exp #(struct:var-exp x1) #(struct:const-exp 1))))
-
-  ;; check nested let and shadowing;;
-  (display "simple-nested-let  -->  ")
-  (display (translation-of-program
-            (scan&parse "let x = 3 in let y = 4 in -(x,y)")))
-  (newline)
-  (newline)
-  ;Prints:
-  ;#(struct:a-program #(struct:let-exp x1 #(struct:const-exp 3) #(struct:let-exp y1 #(struct:const-exp 4) #(struct:diff-exp #(struct:var-exp x1) #(struct:var-exp y1)))))
-
-  (display "check-shadowing-in-body  -->  ")
-  (display (translation-of-program
-            (scan&parse "let x = 3 in let x = 4 in x")))
-  (newline)
-  (newline)
-  ;Prints:
-  ;#(struct:a-program #(struct:let-exp x1 #(struct:const-exp 3) #(struct:let-exp x2 x has been reinitialized. x2 created and shadows x1 #(struct:const-exp 4) #(struct:var-exp x2))))
-  
-  (display "check-shadowing-in-rhs  -->  ")
-  (display (translation-of-program
-            (scan&parse "let x = 3 in let x = -(x,1) in x")))
-  (newline)
-  (newline)
+;  (display "eval-let-rhs  -->  ")
+;  (display (translation-of-program
+;            (scan&parse "let x = -(4,1) in -(x,1)")))
+;  (newline)
+;  (newline)
+;  ;Prints:
+;  ;#(struct:a-program #(struct:let-exp x1 #(struct:diff-exp #(struct:const-exp 4) #(struct:const-exp 1)) #(struct:diff-exp #(struct:var-exp x1) #(struct:const-exp 1))))
+;
+;  ;; check nested let and shadowing;;
+;  (display "simple-nested-let  -->  ")
+;  (display (translation-of-program
+;            (scan&parse "let x = 3 in let y = 4 in -(x,y)")))
+;  (newline)
+;  (newline)
+;  ;Prints:
+;  ;#(struct:a-program #(struct:let-exp x1 #(struct:const-exp 3) #(struct:let-exp y1 #(struct:const-exp 4) #(struct:diff-exp #(struct:var-exp x1) #(struct:var-exp y1)))))
+;
+;  (display "check-shadowing-in-body  -->  ")
+;  (display (translation-of-program
+;            (scan&parse "let x = 3 in let x = 4 in x")))
+;  (newline)
+;  (newline)
+;  ;Prints:
+;  ;#(struct:a-program #(struct:let-exp x1 #(struct:const-exp 3) #(struct:let-exp x2 x has been reinitialized. x2 created and shadows x1 #(struct:const-exp 4) #(struct:var-exp x2))))
+;  
+;  (display "check-shadowing-in-rhs  -->  ")
+;  (display (translation-of-program
+;            (scan&parse "let x = 3 in let x = -(x,1) in x")))
+;  (newline)
+;  (newline)
   ;Prints:
   ;#(struct:a-program #(struct:let-exp x1 #(struct:const-exp 3) #(struct:let-exp x2 x has been reinitialized. x2 created and shadows x1 #(struct:diff-exp #(struct:var-exp x1) #(struct:const-exp 1)) #(struct:var-exp x2))))
 
   
   ;; simple applications;;
-  (display "apply-proc-in-rator-pos  -->  ")
-  (display (translation-of-program
-            (scan&parse "(proc(x) -(x,1)  30)")))
-  (newline)
-  (newline)
+  ;(display "apply-proc-in-rator-pos  -->  ")
+  ;(display (translation-of-program
+  ;          (scan&parse "(proc(x) -(x,1)  30)")))
+  ;(newline)
+  ;(newline)
   ;Prints:
   ;#(struct:a-program #(struct:call-exp #(struct:proc-exp x1 #(struct:diff-exp #(struct:var-exp x1) #(struct:const-exp 1))) #(struct:const-exp 30)))
   
-  (display "apply-simple-proc  -->  ")
-  (display (translation-of-program
-            (scan&parse "let f = proc (x) -(x,1) in (f 30)")))
-  (newline)
-  (newline)
+  ;(display "apply-simple-proc  -->  ")
+  ;(display (translation-of-program
+  ;          (scan&parse "let f = proc(x) -(x,1) in (f 30)")))
+  ;(newline)
+  ;(newline)
   ;Prints:
   ;#(struct:a-program #(struct:let-exp f1 #(struct:proc-exp x1 #(struct:diff-exp #(struct:var-exp x1) #(struct:const-exp 1))) #(struct:call-exp #(struct:var-exp f1) #(struct:const-exp 30))))
   
-  (display "let-to-proc-1  -->  ")
-  (display (translation-of-program
-            (scan&parse "(proc(f)(f 30)  proc(x)-(x,1))")))
-  (newline)
-  (newline)
+  ;(display "let-to-proc-1  -->  ")
+  ;(display (translation-of-program
+  ;          (scan&parse "(proc(f)(f 30)  proc(x)-(x,1))")))
+  ;(newline)
+  ;(newline)
   ;Prints:
   ;#(struct:a-program #(struct:call-exp #(struct:proc-exp f1 #(struct:call-exp #(struct:var-exp f1) #(struct:const-exp 30))) #(struct:proc-exp x1 #(struct:diff-exp #(struct:var-exp x1) #(struct:const-exp 1)))))
   
-  (display "nested-procs  -->  ")
-  (display (translation-of-program
-            (scan&parse "((proc (x) proc (y) -(x,y)  5) 6)")))
-  (newline)
-  (newline)
+  ;(display "nested-procs  -->  ")
+  ;(display (translation-of-program
+  ;          (scan&parse "((proc (x) proc (y) -(x,y)  5) 6)")))
+  ;(newline)
+  ;(newline)
   ;Prints:
   ;#(struct:a-program #(struct:call-exp #(struct:call-exp #(struct:proc-exp x1 #(struct:proc-exp y1 #(struct:diff-exp #(struct:var-exp x1) #(struct:var-exp y1)))) #(struct:const-exp 5)) #(struct:const-exp 6)))
   
