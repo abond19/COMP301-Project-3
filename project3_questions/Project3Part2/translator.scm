@@ -1,6 +1,7 @@
 (module translator (lib "eopl.ss" "eopl")
   
   (require "lang.scm")
+  (require trace)
 
   (provide translation-of-program)
   ;;;;;;;;;;;;;;;; lexical address calculator ;;;;;;;;;;;;;;;;
@@ -38,24 +39,80 @@
             (translation-of exp3 senv)))
         
         (var-exp (var)
-         ; ################################################
-         ; ############ implement translation of var-exp here
-         ; ################################################  
-                 
-         )
-        
+                 ; ################################################
+                 ; ############ implement translation of var-exp here
+                 ; ################################################
+                 (let ((count (- (apply-senv-number senv var) 1)))
+                         (var-exp
+                          (string->symbol (string-append (symbol->string var) (number->string count)))
+                  
+                          )
+                     
+                        ))
         (let-exp (var exp1 body)
-          ; ################################################
-          ; ############ implement translation of let-exp here
-          ; ################################################
-                 
-         )
+                 (let ((count (apply-senv-number senv var)))
+                     (if (<= count 1)
+                         (let-exp
+                  
+                          (string->symbol (string-append (symbol->string var) (number->string count)))
+                          (translation-of exp1 senv)
+                          (translation-of body (extend-senv var senv))
+                          )
+                         (let-exp
+                  
+                          (string->symbol
+                           (string-append
+                            (string-append (symbol->string var) (number->string count))
+                            (string-append
+                             (string-append " "
+                                            (string-append 
+                                             (symbol->string var)
+                                             (string-append " has been reinitialized. "
+                                                            (string-append
+                                                             (symbol->string var)
+                                                             (string-append
+                                                              (number->string count)
+                                                              (string-append
+                                                               " is created and shadows "
+                                                               (string-append (string-append (symbol->string var) (number->string (- count 1)) ".")))))))))))
+                          (translation-of exp1 senv)
+                          (translation-of body (extend-senv var senv))
+                          )
+                         )
+                     
+                   )
+                 )
         
         (proc-exp (var body)
          ; ################################################
          ; ############ implement translation of proc-exp here
-         ; ################################################  
-                  
+         ; ################################################
+                  (let ((count (apply-senv-number senv var)))
+                    (if (<= count 1)
+                        (proc-exp
+                         (string->symbol
+                          (string-append (symbol->string var) (number->string (apply-senv-number senv var))))
+                         (translation-of body
+                                         (extend-senv var senv)))
+                        (proc-exp
+                         (string->symbol
+                           (string-append
+                            (string-append (symbol->string var) (number->string count))
+                            (string-append
+                             (string-append " "
+                                            (string-append 
+                                             (symbol->string var)
+                                             (string-append " has been reinitialized. "
+                                                            (string-append
+                                                             (symbol->string var)
+                                                             (string-append
+                                                              (number->string count)
+                                                              (string-append
+                                                               " is created and shadows "
+                                                               (string-append (string-append (symbol->string var) (number->string (- count 1)) ".")))))))))))
+                         (translation-of body
+                                         (extend-senv var senv)))
+                        ))
          )
         
         (call-exp (rator rand)
@@ -93,8 +150,14 @@
   ; ###### the environment and finds the occurences of variable
   ; ###### var in the environment senv
   ; ###########################################################
-  
-   )
+    (lambda (senv var)
+      (if (null? senv)
+          1
+          (if (eqv? var (car senv))
+              (+ 1 (apply-senv-number (cdr senv) var))
+              (apply-senv-number (cdr senv) var)
+           )
+   )))
   
   ;; apply-senv : Senv * Var -> Lexaddr
   ;; Page: 95
@@ -119,5 +182,7 @@
         (extend-senv 'v
           (extend-senv 'a
             (empty-senv))))))
-  
+
+  ;(trace translation-of)
+  ;(trace apply-senv-number)
   )
