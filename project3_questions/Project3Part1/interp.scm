@@ -91,12 +91,21 @@
         ; ###### type and extend-env-rec-nested procedure in other
         ; ###### files while implementing this structure. 
         ; #####################################################
+        (proc-nested-exp (var count name body)
+          (proc-val (nested-procedure var count name body env)))
 
+        (call-nested-exp (rator rand count)
+          (let ((proc (expval->proc (value-of rator env)))
+                  (arg (value-of rand env)))
+              (apply-procedure proc arg)))
+
+        (letrec-nested-exp (p-name b-var b-count p-body letrec-body)
+          (value-of letrec-body
+            (extend-env-rec-nested p-name b-var b-count p-body env)))
 
         ; #####################################################
       
       )))
-
 
   ;; apply-procedure : Proc * ExpVal -> ExpVal
 
@@ -120,12 +129,14 @@
         ; ###### You will also do the prints here. You can use
         ; ###### "recursive-displayer" function defined below.
         ; #####################################################
-
-
+        (nested-procedure (bvar count-val name body saved-env)
+          (begin 
+            (recursive-displayer name count)
+            (value-of body (extend-env-rec-nested name bvar count body (extend-env count count-val saved-env))))
 
         ; #####################################################
       
-      )))
+      ))))
   
     (define recursive-displayer
       (lambda (name num)

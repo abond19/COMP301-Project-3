@@ -85,7 +85,7 @@
       (bval expval?)
       (saved-env environment?))
     (extend-env-rec
-      (id symbol?)
+      (id symbol?) l=
       (bvar symbol?)
       (body expression?)
       (saved-env environment?))
@@ -99,9 +99,9 @@
     ; ###### the count variable.
     ; ########################################################s
     (extend-env-rec-nested
-      (id symbol?)
+      (id symbol?); name of the procedure
       (bvar symbol?)
-      (bvar number?)
+      (count number?)
       (body expression?)
       (saved-env environment?))
     

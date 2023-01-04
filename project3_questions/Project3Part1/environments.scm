@@ -27,7 +27,7 @@
       ; #####################################################    
       (extend-env
         'count (num-val 0)
-
+i
 
     
       ; #####################################################
@@ -38,7 +38,7 @@
         'v (num-val 5)
         (extend-env
          'x (num-val 10)
-         (empty-env))))))
+         (empty-env)))))))
 
 ;;;;;;;;;;;;;;;; environment constructors and observers ;;;;;;;;;;;;;;;;
 
@@ -64,10 +64,10 @@
               ; ###### returned. Otherwise, it should behave
               ; ###### as it normally does.
               ; #####################################################
-              ;(if (nested-procedure? var)
-                (proc-val (nested-procedure bvar count name body env))
-                val)
-
+              
+              (cases proc val
+                (nested-procedure (name bvar count body env) (proc-val (nested-procedure name bvar count body env)))
+                (else val))
 
               ; #####################################################
                         
@@ -84,7 +84,12 @@
         ; ###### You need to add the variant extend-env-rec-nested, 
         ; ###### for the nested procedures.
         ; #####################################################
-
+        
+        (extend-env-rec-nested (p-name b-var b-count p-body saved-env)
+          (if (eqv? search-sym p-name) ;handle the case where the name is anonym
+            (proc-val (nested-procedure p-name b-var b-count p-body env))          
+            (apply-env saved-env search-sym))
+        )
 
         ; #####################################################
       )
