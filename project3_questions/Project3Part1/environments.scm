@@ -26,9 +26,7 @@
       ; ###### increased later on.
       ; #####################################################    
       (extend-env
-        'count (num-val 0)
-i
-
+       'count (num-val 0)
     
       ; #####################################################
        
@@ -65,8 +63,12 @@ i
               ; ###### as it normally does.
               ; #####################################################
               
-              (cases proc val
-                (nested-procedure (name bvar count body env) (proc-val (nested-procedure name bvar count body env)))
+              (cases expval val
+                (proc-val (myproc)
+                          (cases proc myproc
+                            (nested-procedure (bvar body count name env)
+                                              (proc-val (nested-procedure bvar body count var env)))
+                            (else val)))
                 (else val))
 
               ; #####################################################
@@ -85,9 +87,9 @@ i
         ; ###### for the nested procedures.
         ; #####################################################
         
-        (extend-env-rec-nested (p-name b-var b-count p-body saved-env)
+        (extend-env-rec-nested (p-name b-var p-body b-count saved-env)
           (if (eqv? search-sym p-name) ;handle the case where the name is anonym
-            (proc-val (nested-procedure p-name b-var b-count p-body env))          
+            (proc-val (nested-procedure b-var p-body b-count p-name env))          
             (apply-env saved-env search-sym))
         )
 

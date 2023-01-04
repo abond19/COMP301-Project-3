@@ -67,11 +67,11 @@
     ; #####################################################
 
     (nested-procedure
-      (bvar symbol?)
-      (count number?)
-      (name symbol?)
-      (body expression?)
-      (env environment?))
+     (bvar symbol?)
+     (body expression?)
+     (count symbol?)
+     (name symbol?)
+     (env environment?))
     
 
     ; #####################################################
@@ -85,7 +85,7 @@
       (bval expval?)
       (saved-env environment?))
     (extend-env-rec
-      (id symbol?) l=
+      (id symbol?)
       (bvar symbol?)
       (body expression?)
       (saved-env environment?))
@@ -101,8 +101,8 @@
     (extend-env-rec-nested
       (id symbol?); name of the procedure
       (bvar symbol?)
-      (count number?)
       (body expression?)
+      (count symbol?)
       (saved-env environment?))
     
 

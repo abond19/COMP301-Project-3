@@ -60,8 +60,8 @@
         ; ###### proc-nested-exp has variable name, the count, anonym and the body as arguments
         ; #####################################################
         (proc-exp (var body)
-          
-        )
+                         (proc-nested-exp var 'count 'anonym (translation-of body env)))
+                         
         ; #####################################################
         ; ###### call-nested-exp has operator, operand and the count as arguments
         ; ###### if the operator is an var-exp, it means that it is already
@@ -70,13 +70,21 @@
         ; ###### Hint: for incrementing, you can use diff-exp
         ; #####################################################
         (call-exp (rator rand)
-          
-        )
+                  (call-nested-exp
+                   (translation-of rator env)
+                   (translation-of rand env)
+                   (cases expression rator
+                     (var-exp (var) (diff-exp (var-exp 'count) (const-exp -1)))
+                     (else (const-exp 1))
+                     )
+                   )
+                  )    
+        
         ; #####################################################
         ; ###### count should be included in the nested version
         ; #####################################################
         (letrec-exp (p-name b-var p-body letrec-body)
-         
+         (letrec-nested-exp p-name b-var 'count (translation-of p-body env) (translation-of letrec-body env)  )
         )
 
         ; #####################################################

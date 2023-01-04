@@ -92,17 +92,18 @@
         ; ###### files while implementing this structure. 
         ; #####################################################
         (proc-nested-exp (var count name body)
-          (proc-val (nested-procedure var count name body env)))
+          (proc-val (nested-procedure var body count name env)))
+
 
         (call-nested-exp (rator rand count)
           (let ((proc (expval->proc (value-of rator env)))
-                  (arg (value-of rand env)))
-              (apply-procedure proc arg)))
+                  (arg (value-of rand env))
+                  (count-val (value-of count env)))
+              (apply-procedure proc (cons arg count-val))))
 
         (letrec-nested-exp (p-name b-var b-count p-body letrec-body)
           (value-of letrec-body
-            (extend-env-rec-nested p-name b-var b-count p-body env)))
-
+            (extend-env-rec-nested p-name b-var p-body b-count env)))
         ; #####################################################
       
       )))
@@ -129,14 +130,14 @@
         ; ###### You will also do the prints here. You can use
         ; ###### "recursive-displayer" function defined below.
         ; #####################################################
-        (nested-procedure (bvar count-val name body saved-env)
+        (nested-procedure (bvar body count name saved-env)
           (begin 
-            (recursive-displayer name count)
-            (value-of body (extend-env-rec-nested name bvar count body (extend-env count count-val saved-env))))
+            (recursive-displayer name (expval->num (cdr arg)))
+            (value-of body (extend-env count (cdr arg) (extend-env bvar (car arg) saved-env)))))
 
         ; #####################################################
       
-      ))))
+      )))
   
     (define recursive-displayer
       (lambda (name num)
